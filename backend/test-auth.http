@@ -1,0 +1,51 @@
+### Authentication API Test File
+### Use with REST Client extension in VS Code or similar tools
+
+@baseUrl = http://localhost:5000/api
+@token = your-token-here
+
+### Health Check
+GET {{baseUrl}}/health
+
+### Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "SecurePass123",
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+### Login with email
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "SecurePass123"
+}
+
+### Login with username
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "SecurePass123"
+}
+
+### Get current user (replace token)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Verify token (replace token)
+POST {{baseUrl}}/auth/verify-token
+Authorization: Bearer {{token}}
+
+### Logout (replace token)
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}
+

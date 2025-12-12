@@ -1,0 +1,228 @@
+.create-ticket-container {
+  min-height: 100vh;
+  background: var(--gray-light);
+}
+
+.create-ticket-page-header {
+  max-width: 1000px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+}
+
+.create-ticket-page-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--royal-blue);
+  margin-bottom: 8px;
+}
+
+.create-ticket-page-header p {
+  font-size: 16px;
+  color: var(--gray-dark);
+}
+
+.create-ticket-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.ticket-form {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 30px;
+}
+
+.form-section h2 {
+  color: var(--royal-blue);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gray-medium);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.form-group label .required {
+  color: var(--error);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px 16px;
+  border: 2px solid var(--gray-medium);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: var(--white);
+  color: var(--text-dark);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--royal-blue);
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
+}
+
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+  border-color: var(--error);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--gray-dark);
+  margin-top: -4px;
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 12px;
+  margin-top: -4px;
+}
+
+.error-message-card {
+  background: #FEE;
+  border: 2px solid var(--error);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--error);
+  font-weight: 600;
+}
+
+.error-icon {
+  font-size: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 2px solid var(--gray-medium);
+  margin-top: 30px;
+}
+
+.btn-submit {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-dark) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(65, 105, 225, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cancel {
+  padding: 14px 32px;
+  background: var(--gray-light);
+  color: var(--text-dark);
+  border: 2px solid var(--gray-medium);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: var(--gray-medium);
+  border-color: var(--gray-dark);
+}
+
+.btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .create-ticket-header {
+    padding: 24px 20px;
+  }
+
+  .create-ticket-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .create-ticket-header h1 {
+    font-size: 24px;
+  }
+
+  .create-ticket-content {
+    padding: 24px 16px;
+  }
+
+  .ticket-form {
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,105 @@
+{
+  "faqs": [
+    {
+      "question": "How do I request an Official Transcript of Records (OTR)?",
+      "keywords": ["otr", "transcript", "records", "official transcript", "tor"],
+      "answer": "To request an Official Transcript of Records (OTR), you can create a ticket through the ticketing system. Select 'OTR Request' as the category and provide your student ID, course, year level, number of copies needed, and the purpose of the request. The OTR will be processed within 3-5 business days."
+    },
+    {
+      "question": "How can I enroll in a subject?",
+      "keywords": ["enroll", "enrollment", "subject", "add subject", "register subject"],
+      "answer": "To enroll in a subject, create a ticket with the category 'Subject Enrollment'. Include the subject code, subject name, semester, and academic year. Our staff will review your request and process it accordingly."
+    },
+    {
+      "question": "How do I check my grades?",
+      "keywords": ["grade", "grades", "check grade", "view grade", "grade inquiry"],
+      "answer": "You can check your grades through the student portal. If you have questions about your grades or need clarification, create a ticket with the category 'Grade Inquiry' and provide details about the subject and your concern."
+    },
+    {
+      "question": "What documents can I request?",
+      "keywords": ["document", "documents", "certificate", "diploma", "certification"],
+      "answer": "You can request various documents including Official Transcript of Records (OTR), Certificate of Enrollment, Certificate of Grades, Diploma, and other academic documents. Create a ticket with the category 'Document Request' and specify which document you need."
+    },
+    {
+      "question": "How long does it take to process a request?",
+      "keywords": ["process", "processing", "time", "duration", "how long", "when"],
+      "answer": "Processing times vary by request type: OTR requests take 3-5 business days, document requests take 2-3 business days, and subject enrollment is typically processed within 1-2 business days. Urgent requests may be expedited."
+    },
+    {
+      "question": "How do I pay my tuition?",
+      "keywords": ["tuition", "payment", "pay", "fee", "fees", "tuition fee"],
+      "answer": "Tuition payments can be made through the cashier's office or online payment portal. For payment-related inquiries or issues, create a ticket with the category 'Tuition Payment' and provide your student ID and payment details."
+    },
+    {
+      "question": "What are the office hours?",
+      "keywords": ["hours", "office hours", "open", "closed", "schedule", "time"],
+      "answer": "The Registrar's Office is open Monday to Friday from 8:00 AM to 5:00 PM. We are closed on weekends and holidays. For urgent matters, you can create a ticket and it will be reviewed during office hours."
+    },
+    {
+      "question": "How do I apply for a scholarship?",
+      "keywords": ["scholarship", "financial aid", "grant", "assistance"],
+      "answer": "To apply for a scholarship, create a ticket with the category 'Scholarship' and provide your student ID, course, year level, and any relevant documents. Our scholarship committee will review your application."
+    },
+    {
+      "question": "Can I drop a subject?",
+      "keywords": ["drop", "withdraw", "remove subject", "cancel subject"],
+      "answer": "Yes, you can drop a subject by creating a ticket with the category 'Subject Enrollment' and specifying that you want to drop a subject. Include the subject code and reason for dropping. Please note that dropping subjects may have implications on your academic standing."
+    },
+    {
+      "question": "How do I get a Certificate of Enrollment?",
+      "keywords": ["certificate of enrollment", "coe", "enrollment certificate"],
+      "answer": "To request a Certificate of Enrollment, create a ticket with the category 'Document Request'. Specify that you need a Certificate of Enrollment and provide your student ID, course, and the purpose of the request."
+    },
+    {
+      "question": "What is the deadline for enrollment?",
+      "keywords": ["deadline", "enrollment deadline", "due date", "last day"],
+      "answer": "Enrollment deadlines vary by semester. Please check the academic calendar or contact the Registrar's Office. For specific enrollment issues, create a ticket with the category 'Enrollment'."
+    },
+    {
+      "question": "How do I change my course?",
+      "keywords": ["change course", "shift", "transfer course", "change program"],
+      "answer": "To change your course, create a ticket with the category 'Enrollment' and provide your current course, desired course, and reason for the change. This will be reviewed by the academic committee."
+    },
+    {
+      "question": "How do I check my ticket status?",
+      "keywords": ["ticket status", "check ticket", "my tickets", "ticket update", "ticket progress"],
+      "answer": "You can check your ticket status by asking me 'What's my ticket status?' or 'Show my tickets'. I can show you all your tickets or check a specific ticket if you provide the ticket number. You can also view all your tickets in the Tickets section of the dashboard."
+    },
+    {
+      "question": "Where do I settle unpaid balances?",
+      "keywords": ["unpaid", "balance", "settle", "payment", "billing", "accounting", "unpaid balance", "where to pay"],
+      "answer": "You can settle unpaid balances at the **Cashier's Office** located in the Administration Building, Ground Floor. Office hours are Monday to Friday, 8:00 AM to 5:00 PM. You can also pay online through the student portal or create a ticket with category 'Tuition Payment' for payment-related inquiries. Contact: cashier@university.edu or (02) 1234-5678."
+    },
+    {
+      "question": "Where can I get uniform clothing?",
+      "keywords": ["uniform", "clothing", "uniforms", "school uniform", "uniform clothing", "where to buy uniform", "get uniform"],
+      "answer": "School uniforms are available at the **Student Services Office** located in the Student Center, 2nd Floor. Office hours are Monday to Friday, 8:00 AM to 5:00 PM. You can also check with the **Campus Bookstore** for uniform availability. Contact: studentservices@university.edu or (02) 1234-5679."
+    },
+    {
+      "question": "Where is the library?",
+      "keywords": ["library", "where is library", "library location", "books", "borrowing"],
+      "answer": "The **Library** is located in the Main Library Building, 1st Floor. Operating hours are Monday to Friday, 7:00 AM to 8:00 PM, and Saturday, 8:00 AM to 5:00 PM. Contact: library@university.edu or (02) 1234-5681."
+    },
+    {
+      "question": "Where can I get counseling services?",
+      "keywords": ["counseling", "guidance", "mental health", "psychological", "counselor"],
+      "answer": "Counseling services are available at the **Guidance and Counseling Office** located in the Student Center, 3rd Floor. Office hours are Monday to Friday, 8:00 AM to 5:00 PM. Contact: guidance@university.edu or (02) 1234-5682."
+    },
+    {
+      "question": "Where is the clinic or health services?",
+      "keywords": ["clinic", "health", "medical", "health services", "first aid", "doctor"],
+      "answer": "Health services are available at the **Health Services / Clinic** located in the Health Center, Ground Floor. Operating hours are Monday to Friday, 7:00 AM to 6:00 PM. Contact: healthservices@university.edu or (02) 1234-5683."
+    },
+    {
+      "question": "Where can I get technical support?",
+      "keywords": ["technical support", "it support", "computer help", "wifi", "internet", "password reset", "email issues"],
+      "answer": "Technical support is available at the **IT Services** office located in the IT Building, 1st Floor. Office hours are Monday to Friday, 8:00 AM to 5:00 PM. Contact: itsupport@university.edu or (02) 1234-5684."
+    },
+    {
+      "question": "Where is the security office?",
+      "keywords": ["security", "safety", "parking", "lost and found", "emergency", "security office"],
+      "answer": "The **Security Office** is located at the Main Gate, Security Building. Security services are available 24/7. For emergencies or lost and found items, contact: security@university.edu or (02) 1234-5687."
+    }
+  ]
+}
+

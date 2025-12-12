@@ -1,0 +1,251 @@
+### Ticket API Test File
+### Use with REST Client extension in VS Code or similar tools
+### 
+### IMPORTANT: First login to get a token, then replace {{token}} below with the actual token
+
+@baseUrl = http://localhost:5000/api
+@token = your-token-here
+@ticketId = your-ticket-id-here
+@commentId = your-comment-id-here
+
+### ============================================
+### TICKET OPERATIONS
+### ============================================
+
+### Create OTR Request Ticket
+POST {{baseUrl}}/tickets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Request for Official Transcript of Records",
+  "description": "I need 2 copies of my official transcript for graduate school application. Please deliver via email.",
+  "category": "OTR Request",
+  "priority": "High",
+  "requestDetails": {
+    "numberOfCopies": 2,
+    "purpose": "Graduate school application",
+    "deliveryMethod": "Email",
+    "studentId": "2020-12345",
+    "course": "Bachelor of Science in Computer Science",
+    "yearLevel": "4th Year"
+  }
+}
+
+### Create Subject Enrollment Ticket
+POST {{baseUrl}}/tickets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Request to Enroll in Advanced Database Systems",
+  "description": "I would like to enroll in CS 401 - Advanced Database Systems for the Fall 2024 semester. I have completed all prerequisites including CS 301.",
+  "category": "Subject Enrollment",
+  "priority": "Normal",
+  "requestDetails": {
+    "subjectCode": "CS 401",
+    "subjectName": "Advanced Database Systems",
+    "semester": "Fall",
+    "academicYear": "2024-2025",
+    "studentId": "2020-12345",
+    "course": "Bachelor of Science in Computer Science",
+    "yearLevel": "3rd Year"
+  }
+}
+
+### Create Grade Inquiry Ticket
+POST {{baseUrl}}/tickets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Inquiry about Final Grade in Data Structures",
+  "description": "I would like to inquire about my final grade in CS 201 - Data Structures. I believe there may be an error in the grade calculation. My midterm score was 85% and final exam was 90%, but I received a C grade.",
+  "category": "Grade Inquiry",
+  "priority": "Normal",
+  "requestDetails": {
+    "subjectCode": "CS 201",
+    "subjectName": "Data Structures",
+    "studentId": "2020-12345",
+    "semester": "Spring",
+    "academicYear": "2023-2024"
+  }
+}
+
+### Create General Document Request
+POST {{baseUrl}}/tickets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Request for Certificate of Enrollment",
+  "description": "I need a certificate of enrollment for scholarship application. The deadline is in 2 weeks.",
+  "category": "Document Request",
+  "priority": "High",
+  "requestDetails": {
+    "purpose": "Scholarship application",
+    "studentId": "2020-12345",
+    "course": "Bachelor of Science in Computer Science",
+    "yearLevel": "3rd Year"
+  }
+}
+
+### Get All Tickets (with filters)
+GET {{baseUrl}}/tickets?status=Pending&page=1&limit=10&sortBy=createdAt&sortOrder=desc
+Authorization: Bearer {{token}}
+
+### Get All My Tickets
+GET {{baseUrl}}/tickets
+Authorization: Bearer {{token}}
+
+### Get Tickets by Category
+GET {{baseUrl}}/tickets?category=OTR Request&status=Pending
+Authorization: Bearer {{token}}
+
+### Get Ticket Statistics
+GET {{baseUrl}}/tickets/stats
+Authorization: Bearer {{token}}
+
+### Get Single Ticket with Comments
+GET {{baseUrl}}/tickets/{{ticketId}}
+Authorization: Bearer {{token}}
+
+### Update Ticket (Students can only update Pending tickets)
+PUT {{baseUrl}}/tickets/{{ticketId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "description": "Updated: I now need 3 copies instead of 2",
+  "requestDetails": {
+    "numberOfCopies": 3
+  }
+}
+
+### Update Ticket Status (Staff/Admin only, except cancellation)
+PUT {{baseUrl}}/tickets/{{ticketId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "In Review"
+}
+
+### Approve Ticket (Staff/Admin only)
+PUT {{baseUrl}}/tickets/{{ticketId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Approved",
+  "resolutionNotes": "Request approved. Processing will take 3-5 business days. Transcript will be sent via email."
+}
+
+### Complete Ticket (Staff/Admin only)
+PUT {{baseUrl}}/tickets/{{ticketId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Completed",
+  "resolutionNotes": "Official transcript sent via email on December 5, 2024. Confirmation email sent to student."
+}
+
+### Reject Ticket (Staff/Admin only)
+PUT {{baseUrl}}/tickets/{{ticketId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Rejected",
+  "rejectionReason": "Missing required documents. Please submit a completed application form and valid student ID."
+}
+
+### Cancel Ticket (Creator only, if status is Pending or In Review)
+PUT {{baseUrl}}/tickets/{{ticketId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Cancelled"
+}
+
+### Assign Ticket to Staff (Staff/Admin only)
+PUT {{baseUrl}}/tickets/{{ticketId}}/assign
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "assignedTo": "staff-user-id-here"
+}
+
+### Delete Ticket (Creator can delete Pending tickets, Admin can delete any)
+DELETE {{baseUrl}}/tickets/{{ticketId}}
+Authorization: Bearer {{token}}
+
+### ============================================
+### COMMENT OPERATIONS
+### ============================================
+
+### Add Public Comment (Visible to all)
+POST {{baseUrl}}/tickets/{{ticketId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "I have submitted all required documents via email. Please confirm receipt.",
+  "isInternal": false
+}
+
+### Add Internal Comment (Staff/Admin only, not visible to students)
+POST {{baseUrl}}/tickets/{{ticketId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Verified student records. All requirements met. Transcript processing initiated.",
+  "isInternal": true
+}
+
+### Get All Comments for a Ticket
+GET {{baseUrl}}/tickets/{{ticketId}}/comments
+Authorization: Bearer {{token}}
+
+### Update Comment (Only author or admin)
+PUT {{baseUrl}}/tickets/{{ticketId}}/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Updated comment: Documents received and verified on December 2, 2024."
+}
+
+### Delete Comment (Only author or admin)
+DELETE {{baseUrl}}/tickets/{{ticketId}}/comments/{{commentId}}
+Authorization: Bearer {{token}}
+
+### ============================================
+### WORKFLOW EXAMPLE
+### ============================================
+
+### Step 1: Student creates OTR request
+# POST {{baseUrl}}/tickets (use OTR Request example above)
+
+### Step 2: Student checks ticket status
+# GET {{baseUrl}}/tickets/{{ticketId}}
+
+### Step 3: Staff assigns ticket (Staff/Admin)
+# PUT {{baseUrl}}/tickets/{{ticketId}}/assign
+
+### Step 4: Staff changes status to In Review
+# PUT {{baseUrl}}/tickets/{{ticketId}}/status with "In Review"
+
+### Step 5: Staff adds internal note
+# POST {{baseUrl}}/tickets/{{ticketId}}/comments with isInternal: true
+
+### Step 6: Staff approves request
+# PUT {{baseUrl}}/tickets/{{ticketId}}/status with "Approved"
+
+### Step 7: Staff completes request
+# PUT {{baseUrl}}/tickets/{{ticketId}}/status with "Completed"
+

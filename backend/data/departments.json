@@ -1,0 +1,85 @@
+{
+  "departments": [
+    {
+      "name": "Cashier's Office",
+      "location": "Administration Building, Ground Floor",
+      "services": ["tuition payment", "unpaid balances", "fees", "billing", "accounting", "settle balance", "payment", "financial"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "cashier@university.edu",
+      "phone": "(02) 1234-5678"
+    },
+    {
+      "name": "Student Services Office",
+      "location": "Student Center, 2nd Floor",
+      "services": ["uniforms", "school uniform", "uniform clothing", "student ID", "student activities", "orientation", "student organizations"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "studentservices@university.edu",
+      "phone": "(02) 1234-5679"
+    },
+    {
+      "name": "Registrar's Office",
+      "location": "Administration Building, 2nd Floor",
+      "services": ["transcripts", "otr", "enrollment", "grades", "documents", "certificates", "academic records"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "registrar@university.edu",
+      "phone": "(02) 1234-5680"
+    },
+    {
+      "name": "Library",
+      "location": "Main Library Building, 1st Floor",
+      "services": ["books", "library services", "research", "study spaces", "borrowing books", "library resources"],
+      "hours": "Monday to Friday, 7:00 AM to 8:00 PM | Saturday, 8:00 AM to 5:00 PM",
+      "contact": "library@university.edu",
+      "phone": "(02) 1234-5681"
+    },
+    {
+      "name": "Guidance and Counseling Office",
+      "location": "Student Center, 3rd Floor",
+      "services": ["counseling", "guidance", "mental health", "career guidance", "psychological services"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "guidance@university.edu",
+      "phone": "(02) 1234-5682"
+    },
+    {
+      "name": "Health Services / Clinic",
+      "location": "Health Center, Ground Floor",
+      "services": ["medical", "health", "clinic", "first aid", "medical certificate", "health check"],
+      "hours": "Monday to Friday, 7:00 AM to 6:00 PM",
+      "contact": "healthservices@university.edu",
+      "phone": "(02) 1234-5683"
+    },
+    {
+      "name": "IT Services / Technical Support",
+      "location": "IT Building, 1st Floor",
+      "services": ["technical support", "computer", "internet", "wifi", "system issues", "password reset", "email"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "itsupport@university.edu",
+      "phone": "(02) 1234-5684"
+    },
+    {
+      "name": "Admissions Office",
+      "location": "Administration Building, 1st Floor",
+      "services": ["admission", "enrollment", "application", "entrance exam", "requirements"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "admissions@university.edu",
+      "phone": "(02) 1234-5685"
+    },
+    {
+      "name": "Scholarship Office",
+      "location": "Administration Building, 3rd Floor",
+      "services": ["scholarship", "financial aid", "grants", "bursary", "financial assistance"],
+      "hours": "Monday to Friday, 8:00 AM to 5:00 PM",
+      "contact": "scholarship@university.edu",
+      "phone": "(02) 1234-5686"
+    },
+    {
+      "name": "Security Office",
+      "location": "Main Gate, Security Building",
+      "services": ["security", "safety", "parking", "lost and found", "emergency"],
+      "hours": "24/7",
+      "contact": "security@university.edu",
+      "phone": "(02) 1234-5687"
+    }
+  ]
+}
+

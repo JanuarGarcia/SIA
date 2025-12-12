@@ -1,0 +1,50 @@
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.pending {
+  background: #FFF3CD;
+  color: #856404;
+}
+
+.status-badge.in-review {
+  background: #D1ECF1;
+  color: #0C5460;
+}
+
+.status-badge.approved {
+  background: #D4EDDA;
+  color: #155724;
+}
+
+.status-badge.rejected {
+  background: #F8D7DA;
+  color: #721C24;
+}
+
+.status-badge.completed {
+  background: #D1ECF1;
+  color: #0C5460;
+}
+
+.status-badge.cancelled {
+  background: #E2E3E5;
+  color: #383D41;
+}
+
+.status-badge.on-hold {
+  background: #FFF3CD;
+  color: #856404;
+}
+
+.status-badge.default {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+}
+

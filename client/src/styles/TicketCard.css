@@ -1,0 +1,120 @@
+.ticket-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--royal-blue);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ticket-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-left-color: var(--royal-yellow);
+}
+
+.ticket-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ticket-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--royal-blue);
+  font-family: 'Courier New', monospace;
+}
+
+.ticket-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ticket-card-body {
+  flex: 1;
+}
+
+.ticket-title {
+  color: var(--text-dark);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.ticket-description {
+  color: var(--gray-dark);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.ticket-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--gray-dark);
+}
+
+.ticket-category,
+.ticket-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-icon {
+  font-size: 14px;
+}
+
+.ticket-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-medium);
+}
+
+.ticket-assigned {
+  font-size: 13px;
+  color: var(--gray-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ticket-arrow {
+  font-size: 20px;
+  color: var(--royal-blue);
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.ticket-card:hover .ticket-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .ticket-card {
+    padding: 16px;
+  }
+
+  .ticket-title {
+    font-size: 16px;
+  }
+
+  .ticket-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+

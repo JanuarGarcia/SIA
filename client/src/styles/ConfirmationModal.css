@@ -1,0 +1,213 @@
+.confirmation-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.confirmation-modal-container {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.confirmation-modal-header {
+  padding: 20px 24px;
+  border-bottom: 2px solid var(--gray-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, var(--royal-blue) 0%, var(--royal-blue-dark) 100%);
+}
+
+.confirmation-modal-title {
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.confirmation-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.confirmation-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.confirmation-modal-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.confirmation-modal-message {
+  color: var(--text-dark);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.confirmation-modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.confirmation-modal-label {
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.required-asterisk {
+  color: var(--error);
+}
+
+.confirmation-modal-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--gray-medium);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  transition: all 0.3s ease;
+  color: var(--text-dark);
+}
+
+.confirmation-modal-textarea:focus {
+  outline: none;
+  border-color: var(--royal-blue);
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
+}
+
+.confirmation-modal-textarea::placeholder {
+  color: var(--gray-dark);
+}
+
+.confirmation-modal-footer {
+  padding: 16px 24px;
+  border-top: 2px solid var(--gray-medium);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--gray-light);
+}
+
+.confirmation-modal-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.confirmation-modal-btn-cancel {
+  background: var(--white);
+  color: var(--text-dark);
+  border: 2px solid var(--gray-medium);
+}
+
+.confirmation-modal-btn-cancel:hover {
+  background: var(--gray-medium);
+  border-color: var(--gray-dark);
+}
+
+.confirmation-modal-btn-confirm {
+  background: var(--royal-blue);
+  color: var(--white);
+}
+
+.confirmation-modal-btn-confirm:hover:not(:disabled) {
+  background: var(--royal-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.confirmation-modal-btn-confirm:disabled {
+  background: var(--gray-medium);
+  color: var(--gray-dark);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .confirmation-modal-container {
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .confirmation-modal-header {
+    padding: 16px 20px;
+  }
+
+  .confirmation-modal-title {
+    font-size: 18px;
+  }
+
+  .confirmation-modal-body {
+    padding: 20px;
+  }
+
+  .confirmation-modal-footer {
+    padding: 12px 20px;
+    flex-direction: column-reverse;
+  }
+
+  .confirmation-modal-btn {
+    width: 100%;
+  }
+}
+
