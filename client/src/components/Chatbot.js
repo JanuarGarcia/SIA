@@ -249,10 +249,10 @@ const Chatbot = () => {
   };
 
   const quickSuggestions = [
+    "Where is the Registrar?",
+    "Saan ang Library?",
     "How can I create a ticket?",
     "Check my ticket status",
-    "What services are available?",
-    "Help with OTR request",
   ];
 
   const handleQuickSuggestion = (suggestion) => {

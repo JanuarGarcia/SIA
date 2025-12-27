@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { adminController } from '../../controllers/adminController';
 import StatusBadge from '../../components/StatusBadge';
 import PriorityBadge from '../../components/PriorityBadge';
+import { getDisplayCategory } from '../../utils/ticketHelpers';
 import '../../styles/Admin.css';
 
 const AdminTicketReview = () => {
@@ -194,7 +195,7 @@ const AdminTicketReview = () => {
                 </div>
                 <div className="info-item">
                   <span className="info-label">Category:</span>
-                  <span className="info-value">{ticket.category}</span>
+                  <span className="info-value">{getDisplayCategory(ticket)}</span>
                 </div>
                 <div className="info-item">
                   <span className="info-label">Status:</span>

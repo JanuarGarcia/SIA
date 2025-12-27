@@ -32,25 +32,8 @@ const ticketSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, 'Category is required'],
-    enum: {
-      values: [
-        'OTR Request',           // Official Transcript of Records
-        'Subject Enrollment',     // Adding/Dropping subjects
-        'Grade Inquiry',          // Questioning grades
-        'Document Request',       // Various document requests
-        'Enrollment',             // General enrollment issues
-        'Scholarship',            // Scholarship applications/inquiries
-        'Financial Aid',          // Financial aid requests
-        'Tuition Payment',        // Payment-related issues
-        'Academic Complaint',     // Academic grievances
-        'Course Evaluation',      // Course/teacher evaluation
-        'Library',                // Library services
-        'General Inquiry',        // General questions
-        'Technical Support',      // System/technical issues
-        'Other',
-      ],
-      message: '{VALUE} is not a valid category',
-    },
+    // Removed enum restriction to allow custom categories
+    // Validation is handled in routes to allow predefined categories or custom categories
   },
   status: {
     type: String,

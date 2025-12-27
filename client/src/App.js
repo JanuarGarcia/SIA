@@ -13,6 +13,9 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminTicketsList from './pages/admin/AdminTicketsList';
 import AdminTicketReview from './pages/admin/AdminTicketReview';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
+import AdminCategoryManagement from './pages/admin/AdminCategoryManagement';
+import AdminCourseManagement from './pages/admin/AdminCourseManagement';
+import AdminOfficeManagement from './pages/admin/AdminOfficeManagement';
 import AdminRoute from './components/AdminRoute';
 import './styles/App.css';
 
@@ -117,6 +120,30 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminAnalytics />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <AdminRoute>
+                  <AdminCategoryManagement />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/courses"
+              element={
+                <AdminRoute>
+                  <AdminCourseManagement />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/offices"
+              element={
+                <AdminRoute>
+                  <AdminOfficeManagement />
                 </AdminRoute>
               }
             />

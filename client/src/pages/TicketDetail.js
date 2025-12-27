@@ -6,6 +6,7 @@ import { ticketController } from '../controllers/ticketController';
 import StatusBadge from '../components/StatusBadge';
 import PriorityBadge from '../components/PriorityBadge';
 import ConfirmationModal from '../components/ConfirmationModal';
+import { getDisplayCategory } from '../utils/ticketHelpers';
 import '../styles/TicketDetail.css';
 
 const TicketDetail = () => {
@@ -294,7 +295,7 @@ const TicketDetail = () => {
             <div className="info-grid">
               <div className="info-item">
                 <span className="info-label">Category:</span>
-                <span className="info-value">{ticket.category}</span>
+                <span className="info-value">{getDisplayCategory(ticket)}</span>
               </div>
               <div className="info-item">
                 <span className="info-label">Status:</span>

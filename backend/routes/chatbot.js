@@ -41,6 +41,43 @@ try {
   departmentData = { departments: [] };
 }
 
+// Load Office Locations data
+let officeData = null;
+
+/**
+ * Reload office locations data from file
+ * Useful for hot-reloading in development or after admin updates
+ */
+function reloadOfficeData() {
+  try {
+    const officePath = path.join(__dirname, '../data/offices.json');
+    if (fs.existsSync(officePath)) {
+      const officeFile = fs.readFileSync(officePath, 'utf8');
+      const parsed = JSON.parse(officeFile);
+      if (Array.isArray(parsed)) {
+        officeData = parsed;
+        console.log(`✅ Office locations data reloaded: ${officeData.length} offices`);
+        return true;
+      } else {
+        console.warn('⚠️ Office locations data is not an array');
+        officeData = [];
+        return false;
+      }
+    } else {
+      console.warn('⚠️ Office locations file not found at:', officePath);
+      officeData = [];
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Error loading office locations data:', error.message);
+    officeData = [];
+    return false;
+  }
+}
+
+// Initial load
+reloadOfficeData();
+
 // Greeting patterns
 const greetingPatterns = [
   /^(hi|hello|hey|greetings|good morning|good afternoon|good evening|good day)/i,
@@ -80,7 +117,7 @@ function getGreetingResponse() {
   else if (hour < 18) greeting = 'Good afternoon';
   else greeting = 'Good evening';
   
-  return `${greeting}! I'm the Registrar's Office AI assistant. How can I help you today? I can assist with:\n\n• Requesting documents (OTR, certificates, etc.)\n• Subject enrollment\n• Grade inquiries\n• General questions\n\nJust ask me anything, and I'll help you create a ticket if needed!`;
+  return `${greeting}! I'm the PSU Urdaneta City Campus AI assistant. How can I help you today? I can assist with:\n\n• Finding office locations (e.g., "Where is the Registrar?", "Saan ang Library?")\n• Requesting documents (OTR, certificates, etc.)\n• Subject enrollment\n• Grade inquiries\n• General questions\n\nYou can ask me in English or Tagalog! Just ask me anything, and I'll help you create a ticket if needed.`;
 }
 
 /**
@@ -106,6 +143,186 @@ function matchFAQ(message) {
   }
   
   return null;
+}
+
+/**
+ * Check if message contains office-related terms (not just location words)
+ */
+function containsOfficeRelatedTerms(message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Office-related terms that indicate the user is asking about a specific office/department
+  const officeTerms = [
+    // Office names and variations
+    'registrar', 'library', 'librarian', 'engineering', 'engineer', 'it department', 
+    'computer studies', 'guidance', 'counselor', 'accounting', 'accountant', 'cashier',
+    'admissions', 'scholarship', 'student services', 'health', 'clinic', 'security',
+    // Tagalog office terms
+    'aklatan', 'registrar', 'engineering', 'guidance', 'accounting', 'cashier',
+    'admissions', 'scholarship', 'kalusugan', 'klinika', 'seguridad',
+    // Department terms
+    'department', 'office', 'kagawaran', 'tanggapan', 'departamento',
+    // Service-related terms that might indicate office location
+    'otr', 'transcript', 'enrollment', 'grades', 'payment', 'tuition', 'fees',
+    'books', 'research', 'counseling', 'medical', 'uniform', 'id card'
+  ];
+  
+  return officeTerms.some(term => lowerMessage.includes(term));
+}
+
+/**
+ * Detect if message is asking about office location (English and Tagalog)
+ */
+function detectLocationInquiry(message) {
+  // Reload office data if it's empty (in case it was updated)
+  if (!officeData || !Array.isArray(officeData) || officeData.length === 0) {
+    reloadOfficeData();
+    if (!officeData || !Array.isArray(officeData) || officeData.length === 0) {
+      return null;
+    }
+  }
+  
+  const lowerMessage = message.toLowerCase();
+  
+  // English location inquiry keywords
+  const englishLocationKeywords = [
+    'where', 'location', 'find', 'locate', 'saan', 'nasa', 'nandito', 'nandiyan', 
+    'nandun', 'nasaang', 'nasa anong', 'hanapin', 'hanap', 'makikita', 'matatagpuan'
+  ];
+  
+  // Tagalog location inquiry keywords
+  const tagalogLocationKeywords = [
+    'saan', 'nasa', 'nandito', 'nandiyan', 'nandun', 'nasaang', 'nasa anong', 
+    'hanapin', 'hanap', 'makikita', 'matatagpuan', 'kung saan', 'nasaan'
+  ];
+  
+  const isLocationInquiry = englishLocationKeywords.some(keyword => 
+    lowerMessage.includes(keyword)
+  ) || tagalogLocationKeywords.some(keyword => 
+    lowerMessage.includes(keyword)
+  );
+  
+  if (!isLocationInquiry) {
+    return null;
+  }
+  
+  // Try to find matching office
+  let bestMatch = null;
+  let bestMatchScore = 0;
+  
+  for (const office of officeData) {
+    let score = 0;
+    
+    // Check English keywords (exact matches get higher score)
+    if (office.keywords && Array.isArray(office.keywords)) {
+      office.keywords.forEach(keyword => {
+        const keywordLower = keyword.toLowerCase();
+        // Exact word match (with word boundaries)
+        const exactMatch = new RegExp(`\\b${keywordLower}\\b`, 'i').test(lowerMessage);
+        if (exactMatch) {
+          score += 3; // Higher weight for exact keyword match
+        } else if (lowerMessage.includes(keywordLower)) {
+          score += 2; // Partial match
+        }
+      });
+    }
+    
+    // Check Tagalog keywords
+    if (office.keywords_tagalog && Array.isArray(office.keywords_tagalog)) {
+      office.keywords_tagalog.forEach(keyword => {
+        const keywordLower = keyword.toLowerCase();
+        const exactMatch = new RegExp(`\\b${keywordLower}\\b`, 'i').test(lowerMessage);
+        if (exactMatch) {
+          score += 3;
+        } else if (lowerMessage.includes(keywordLower)) {
+          score += 2;
+        }
+      });
+    }
+    
+    // Check office name (English and Tagalog) - exact match gets highest score
+    if (office.office_name) {
+      const officeNameLower = office.office_name.toLowerCase();
+      // Check for exact office name match
+      if (lowerMessage.includes(officeNameLower)) {
+        score += 5; // Highest score for exact office name
+      } else {
+        // Check individual words from office name
+        const officeNameWords = officeNameLower.split(/\s+/);
+        officeNameWords.forEach(word => {
+          // Skip common words
+          if (word.length > 3 && !['office', 'department', 'the', 'of', 'and'].includes(word)) {
+            const wordMatch = new RegExp(`\\b${word}\\b`, 'i').test(lowerMessage);
+            if (wordMatch) {
+              score += 2;
+            } else if (lowerMessage.includes(word)) {
+              score += 1;
+            }
+          }
+        });
+      }
+    }
+    
+    if (office.office_name_tagalog) {
+      const officeNameTagalogLower = office.office_name_tagalog.toLowerCase();
+      if (lowerMessage.includes(officeNameTagalogLower)) {
+        score += 5;
+      } else {
+        const officeNameWords = officeNameTagalogLower.split(/\s+/);
+        officeNameWords.forEach(word => {
+          if (word.length > 3 && !['ng', 'ang', 'sa', 'na'].includes(word)) {
+            const wordMatch = new RegExp(`\\b${word}\\b`, 'i').test(lowerMessage);
+            if (wordMatch) {
+              score += 2;
+            } else if (lowerMessage.includes(word)) {
+              score += 1;
+            }
+          }
+        });
+      }
+    }
+    
+    // Bonus for building name mentions (indicates location inquiry)
+    if (office.building_name && lowerMessage.includes(office.building_name.toLowerCase())) {
+      score += 1;
+    }
+    
+    if (score > bestMatchScore) {
+      bestMatchScore = score;
+      bestMatch = office;
+    }
+  }
+  
+  // Require minimum score of 2 to avoid false positives
+  // This ensures we have at least one meaningful match
+  return bestMatchScore >= 2 ? bestMatch : null;
+}
+
+/**
+ * Format office location information for chatbot response
+ */
+function formatOfficeLocation(office) {
+  if (!office) {
+    return null;
+  }
+  
+  let response = `📍 **${office.office_name || 'Office'}**\n\n`;
+  
+  if (office.building_name) {
+    response += `🏢 **Building:** ${office.building_name}\n`;
+  }
+  
+  if (office.floor_room) {
+    response += `🚪 **Location:** ${office.floor_room}\n`;
+  }
+  
+  if (office.description) {
+    response += `\n📝 **Description:** ${office.description}\n`;
+  }
+  
+  response += `\nIs there anything else I can help you with?`;
+  
+  return response;
 }
 
 /**
@@ -254,6 +471,22 @@ function buildDepartmentContext() {
 }
 
 /**
+ * Build office locations context for GPT
+ */
+function buildOfficeLocationsContext() {
+  if (!officeData || !Array.isArray(officeData) || officeData.length === 0) {
+    return '';
+  }
+  
+  let context = '\n\nPSU Urdaneta City Campus Office Locations:\n';
+  officeData.forEach(office => {
+    context += `- ${office.office_name} (${office.office_name_tagalog || ''}): ${office.building_name}, ${office.floor_room}. ${office.description || ''}\n`;
+  });
+  
+  return context;
+}
+
+/**
  * Call GPT-4o-mini for fallback response
  */
 async function getGPTResponse(message, userId) {
@@ -265,8 +498,9 @@ async function getGPTResponse(message, userId) {
     }
     
     const departmentContext = buildDepartmentContext();
+    const officeLocationsContext = buildOfficeLocationsContext();
     
-    const systemPrompt = `You are a helpful AI assistant for a university registrar's office. Help students with questions about enrollment, transcripts, grades, and other university services. Be friendly, professional, and concise. If a student needs to create a ticket, guide them on how to do so.${departmentContext}\n\nWhen students ask about where to find services or departments, provide specific location information from the department list above.`;
+    const systemPrompt = `You are a helpful AI assistant for PSU Urdaneta City Campus. Help students and staff with questions about office locations, enrollment, transcripts, grades, and other university services. You can understand and respond to questions in both English and Tagalog. Be friendly, professional, and concise. If a student needs to create a ticket, guide them on how to do so.${departmentContext}${officeLocationsContext}\n\nWhen students ask about office locations (e.g., "Where is the Registrar?", "Saan ang Library?", "Where can I find the Cashier?"), provide specific location information including building name, floor/room number, and description from the office locations list above. If an office is not found in the list, politely inform them that the office information is not available and recommend contacting the administration.`;
     
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
@@ -302,17 +536,56 @@ async function getGPTResponse(message, userId) {
 
 /**
  * Detect if message is asking about ticket status
+ * Improved to be more specific and avoid false positives
  */
 function detectTicketStatusInquiry(message) {
-  const lowerMessage = message.toLowerCase();
-  const statusKeywords = [
-    'ticket status', 'check ticket', 'my tickets', 'ticket status', 
-    'status of', 'ticket number', 'view ticket', 'show ticket',
-    'what is my ticket', 'where is my ticket', 'ticket update',
-    'ticket progress', 'ticket information', 'my ticket info'
+  const lowerMessage = message.toLowerCase().trim();
+  
+  // Must contain the word "ticket" to be a ticket status inquiry
+  if (!lowerMessage.includes('ticket')) {
+    return false;
+  }
+  
+  // Specific ticket status inquiry phrases (exact matches get priority)
+  const exactStatusPhrases = [
+    'ticket status',
+    'check ticket',
+    'check my ticket',
+    'check my tickets',
+    'my tickets',
+    'my ticket',
+    'ticket number',
+    'view ticket',
+    'view my ticket',
+    'show ticket',
+    'show my ticket',
+    'ticket update',
+    'ticket progress',
+    'ticket information',
+    'my ticket info',
+    'ticket status check',
+    'what is my ticket',
+    'where is my ticket',
+    'status of my ticket',
+    'status of ticket'
   ];
   
-  return statusKeywords.some(keyword => lowerMessage.includes(keyword));
+  // Check for exact phrase matches first (most reliable)
+  const hasExactPhrase = exactStatusPhrases.some(phrase => lowerMessage.includes(phrase));
+  if (hasExactPhrase) {
+    return true;
+  }
+  
+  // Additional check: ticket + status-related words
+  const statusWords = ['status', 'check', 'view', 'show', 'progress', 'update', 'information', 'info'];
+  const hasStatusWord = statusWords.some(word => {
+    // Use word boundaries to avoid partial matches
+    const regex = new RegExp(`\\b${word}\\b`, 'i');
+    return regex.test(lowerMessage);
+  });
+  
+  // Must have both "ticket" and a status-related word
+  return hasStatusWord;
 }
 
 /**
@@ -613,63 +886,8 @@ router.post(
         });
       }
 
-      // 3. Check for department/service location inquiries
-      const department = findDepartmentByService(message);
-      if (department) {
-        response.text = formatDepartmentInfo(department);
-        response.action = 'department_info';
-        
-        // Check if they might want to create a ticket
-        const ticketIndicators = ['request', 'need', 'want', 'apply', 'create', 'submit', 'help with', 'inquiry'];
-        const mightNeedTicket = ticketIndicators.some(indicator => 
-          lowerMessage.includes(indicator)
-        );
-        
-        if (mightNeedTicket) {
-          response.text += '\n\nWould you like me to create a ticket for this? Just reply "yes" or "create ticket" and I\'ll set it up for you.';
-          response.action = 'ticket_offer';
-          const category = detectTicketCategory(message);
-          response.conversationContext = {
-            originalMessage: message,
-            category: category,
-          };
-        }
-        
-        return res.json({
-          success: true,
-          data: response,
-        });
-      }
-
-      // 4. Try to match FAQ
-      const faqAnswer = matchFAQ(message);
-      if (faqAnswer) {
-        response.text = faqAnswer;
-        
-        // Check if the question suggests they might want to create a ticket
-        const ticketIndicators = ['request', 'need', 'want', 'apply', 'create', 'submit', 'help with'];
-        const mightNeedTicket = ticketIndicators.some(indicator => 
-          lowerMessage.includes(indicator)
-        );
-        
-        if (mightNeedTicket) {
-          const category = detectTicketCategory(message);
-          response.text += '\n\nWould you like me to create a ticket for this request? Just reply "yes" or "create ticket" and I\'ll set it up for you.';
-          response.action = 'ticket_offer';
-          response.conversationContext = {
-            originalMessage: message,
-            category: category,
-          };
-        }
-        
-        return res.json({
-          success: true,
-          data: response,
-        });
-      }
-
-      // 5. Check for ticket status inquiries
-      if (detectTicketStatusInquiry(lowerMessage)) {
+      // 3. Check for ticket status inquiries (moved earlier for priority - system function)
+      if (detectTicketStatusInquiry(message)) {
         try {
           const ticketNumber = extractTicketNumber(message);
           const tickets = await getUserTickets(userId, ticketNumber);
@@ -703,7 +921,74 @@ router.post(
         });
       }
 
-      // 6. Detect if message indicates ticket creation need (but don't auto-create)
+      // 4. Check for office location inquiries (English and Tagalog)
+      const office = detectLocationInquiry(message);
+      if (office) {
+        response.text = formatOfficeLocation(office);
+        response.action = 'location_info';
+        
+        return res.json({
+          success: true,
+          data: response,
+        });
+      }
+      
+      // 5. Check for department/service location inquiries
+      const department = findDepartmentByService(message);
+      if (department) {
+        response.text = formatDepartmentInfo(department);
+        response.action = 'department_info';
+        
+        // Check if they might want to create a ticket
+        const ticketIndicators = ['request', 'need', 'want', 'apply', 'create', 'submit', 'help with', 'inquiry'];
+        const mightNeedTicket = ticketIndicators.some(indicator => 
+          lowerMessage.includes(indicator)
+        );
+        
+        if (mightNeedTicket) {
+          response.text += '\n\nWould you like me to create a ticket for this? Just reply "yes" or "create ticket" and I\'ll set it up for you.';
+          response.action = 'ticket_offer';
+          const category = detectTicketCategory(message);
+          response.conversationContext = {
+            originalMessage: message,
+            category: category,
+          };
+        }
+        
+        return res.json({
+          success: true,
+          data: response,
+        });
+      }
+
+      // 6. Try to match FAQ
+      const faqAnswer = matchFAQ(message);
+      if (faqAnswer) {
+        response.text = faqAnswer;
+        
+        // Check if the question suggests they might want to create a ticket
+        const ticketIndicators = ['request', 'need', 'want', 'apply', 'create', 'submit', 'help with'];
+        const mightNeedTicket = ticketIndicators.some(indicator => 
+          lowerMessage.includes(indicator)
+        );
+        
+        if (mightNeedTicket) {
+          const category = detectTicketCategory(message);
+          response.text += '\n\nWould you like me to create a ticket for this request? Just reply "yes" or "create ticket" and I\'ll set it up for you.';
+          response.action = 'ticket_offer';
+          response.conversationContext = {
+            originalMessage: message,
+            category: category,
+          };
+        }
+        
+        return res.json({
+          success: true,
+          data: response,
+        });
+      }
+
+      // 7. Detect if message indicates ticket creation need (but don't auto-create)
       const ticketIndicators = [
         'request', 'need', 'want', 'apply', 'create', 'submit', 
         'help with', 'assistance', 'issue', 'problem'
@@ -728,7 +1013,23 @@ router.post(
         });
       }
 
-      // 7. Fallback to GPT-4o-mini
+      // 8. Check if message is a location inquiry about an office that didn't match
+      // Only trigger if it's clearly asking about an office location (not just any location question)
+      const locationInquiryWords = ['where', 'saan', 'location', 'find', 'hanap', 'makikita', 'nasa', 'nandito', 'nandiyan', 'nandun', 'locate'];
+      const hasLocationWord = locationInquiryWords.some(word => lowerMessage.includes(word));
+      const hasOfficeTerm = containsOfficeRelatedTerms(message);
+      
+      // Only show "office not found" if it's clearly an office location inquiry
+      if (hasLocationWord && hasOfficeTerm) {
+        // Office not found - provide helpful response
+        response.text = `I'm sorry, I couldn't find information about that office location in our database. The office you're looking for might not be available, or the information might need to be updated.\n\nPlease contact the administration office for assistance, or you can ask me about other offices like:\n• Registrar's Office\n• Library\n• Engineering Department\n• IT/Computer Studies Department\n• Guidance Office\n• Accounting Office\n• Cashier's Office\n\nIs there anything else I can help you with?`;
+        return res.json({
+          success: true,
+          data: response,
+        });
+      }
+
+      // 9. Fallback to GPT-4o-mini (with office location context)
       const gptResponse = await getGPTResponse(message, userId);
       response.text = gptResponse;
       

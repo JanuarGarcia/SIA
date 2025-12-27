@@ -3,6 +3,8 @@ const { body, validationResult, query } = require('express-validator');
 const Ticket = require('../models/Ticket');
 const TicketComment = require('../models/TicketComment');
 const { authenticate } = require('../middleware/auth');
+const fs = require('fs');
+const path = require('path');
 
 const router = express.Router();
 
@@ -20,23 +22,33 @@ const validateTicket = [
     .isLength({ min: 10, max: 5000 })
     .withMessage('Description must be between 10 and 5000 characters'),
   body('category')
-    .isIn([
-      'OTR Request',
-      'Subject Enrollment',
-      'Grade Inquiry',
-      'Document Request',
-      'Enrollment',
-      'Scholarship',
-      'Financial Aid',
-      'Tuition Payment',
-      'Academic Complaint',
-      'Course Evaluation',
-      'Library',
-      'General Inquiry',
-      'Technical Support',
-      'Other',
-    ])
-    .withMessage('Invalid category'),
+    .trim()
+    .isLength({ min: 1, max: 200 })
+    .withMessage('Category must be between 1 and 200 characters')
+    .custom((value) => {
+      // Allow predefined categories OR custom categories (when "Other" was selected)
+      const predefinedCategories = [
+        'OTR Request',
+        'Subject Enrollment',
+        'Grade Inquiry',
+        'Document Request',
+        'Enrollment',
+        'Scholarship',
+        'Financial Aid',
+        'Tuition Payment',
+        'Academic Complaint',
+        'Course Evaluation',
+        'Library',
+        'General Inquiry',
+        'Technical Support',
+        'Other',
+      ];
+      // Allow if it's a predefined category OR if it's a custom category (not "Other" and length >= 3)
+      if (predefinedCategories.includes(value) || (value !== 'Other' && value.length >= 3)) {
+        return true;
+      }
+      throw new Error('Invalid category');
+    }),
   body('priority')
     .optional()
     .isIn(['Low', 'Normal', 'High', 'Urgent'])
@@ -297,6 +309,96 @@ router.get(
     }
   }
 );
+
+/**
+ * Utility function to read categories from file
+ */
+const getCategories = () => {
+  try {
+    const categoriesPath = path.join(__dirname, '../data/categories.json');
+    if (fs.existsSync(categoriesPath)) {
+      const categoriesFile = fs.readFileSync(categoriesPath, 'utf8');
+      const categories = JSON.parse(categoriesFile);
+      if (Array.isArray(categories)) {
+        return categories;
+      }
+      return [];
+    }
+    return [];
+  } catch (error) {
+    console.error('Error reading categories:', error);
+    return [];
+  }
+};
+
+/**
+ * Utility function to read courses from file
+ */
+const getCourses = () => {
+  try {
+    const coursesPath = path.join(__dirname, '../data/courses.json');
+    if (fs.existsSync(coursesPath)) {
+      const coursesFile = fs.readFileSync(coursesPath, 'utf8');
+      const courses = JSON.parse(coursesFile);
+      if (Array.isArray(courses)) {
+        return courses;
+      }
+      return [];
+    }
+    return [];
+  } catch (error) {
+    console.error('Error reading courses:', error);
+    return [];
+  }
+};
+
+/**
+ * @route   GET /api/tickets/categories
+ * @desc    Get all available categories
+ * @access  Private
+ */
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = getCategories();
+    res.json({
+      success: true,
+      data: {
+        categories,
+      },
+    });
+  } catch (error) {
+    console.error('Get categories error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error fetching categories',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+});
+
+/**
+ * @route   GET /api/tickets/courses
+ * @desc    Get all available courses
+ * @access  Private
+ */
+router.get('/courses', async (req, res) => {
+  try {
+    const courses = getCourses();
+    res.json({
+      success: true,
+      data: {
+        courses,
+      },
+    });
+  } catch (error) {
+    console.error('Get courses error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error fetching courses',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+});
 
 /**
  * @route   GET /api/tickets/stats

@@ -71,5 +71,116 @@ export const adminController = {
     });
     return response.data;
   },
+
+  // Category management
+  getCategories: async () => {
+    const response = await api.get('/admin/categories', {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  addCategory: async (categoryName) => {
+    const response = await api.post(
+      '/admin/categories',
+      { name: categoryName },
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  updateCategory: async (oldName, newName) => {
+    const response = await api.put(
+      `/admin/categories/${encodeURIComponent(oldName)}`,
+      { name: newName },
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  deleteCategory: async (categoryName) => {
+    const response = await api.delete(`/admin/categories/${encodeURIComponent(categoryName)}`, {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  // Course management
+  getCourses: async () => {
+    const response = await api.get('/admin/courses', {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  addCourse: async (courseName) => {
+    const response = await api.post(
+      '/admin/courses',
+      { name: courseName },
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  updateCourse: async (oldName, newName) => {
+    const response = await api.put(
+      `/admin/courses/${encodeURIComponent(oldName)}`,
+      { name: newName },
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  deleteCourse: async (courseName) => {
+    const response = await api.delete(`/admin/courses/${encodeURIComponent(courseName)}`, {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  // Office location management
+  getOffices: async () => {
+    const response = await api.get('/admin/offices', {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  addOffice: async (officeData) => {
+    const response = await api.post(
+      '/admin/offices',
+      officeData,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  updateOffice: async (officeId, officeData) => {
+    const response = await api.put(
+      `/admin/offices/${officeId}`,
+      officeData,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    return response.data;
+  },
+
+  deleteOffice: async (officeId) => {
+    const response = await api.delete(`/admin/offices/${officeId}`, {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
 };
 

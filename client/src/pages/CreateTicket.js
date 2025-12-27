@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { ticketController } from '../controllers/ticketController';
@@ -9,10 +9,15 @@ const CreateTicket = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [courses, setCourses] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'OTR Request',
+    category: '',
+    otherCategory: '', // For custom category when "Other" is selected
     priority: 'Normal',
     requestDetails: {
       numberOfCopies: 1,
@@ -27,22 +32,44 @@ const CreateTicket = () => {
     },
   });
 
-  const categories = [
-    'OTR Request',
-    'Subject Enrollment',
-    'Grade Inquiry',
-    'Document Request',
-    'Enrollment',
-    'Scholarship',
-    'Financial Aid',
-    'Tuition Payment',
-    'Academic Complaint',
-    'Course Evaluation',
-    'Library',
-    'General Inquiry',
-    'Technical Support',
-    'Other',
-  ];
+  useEffect(() => {
+    fetchCategories();
+    fetchCourses();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      setLoadingCategories(true);
+      const response = await ticketController.getCategories();
+      if (response.success && response.data && Array.isArray(response.data.categories)) {
+        setCategories(response.data.categories);
+        // Set default category if available and not already set
+        if (response.data.categories.length > 0 && !formData.category) {
+          setFormData(prev => ({ ...prev, category: response.data.categories[0] }));
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+      setError('Failed to load categories. Please refresh the page.');
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
+
+  const fetchCourses = async () => {
+    try {
+      setLoadingCourses(true);
+      const response = await ticketController.getCourses();
+      if (response.success && response.data && Array.isArray(response.data.courses)) {
+        setCourses(response.data.courses);
+      }
+    } catch (err) {
+      console.error('Error fetching courses:', err);
+      // Don't show error for courses, it's optional
+    } finally {
+      setLoadingCourses(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,6 +81,13 @@ const CreateTicket = () => {
           ...prev.requestDetails,
           [field]: value,
         },
+      }));
+    } else if (name === 'category') {
+      // When category changes, clear otherCategory if not "Other"
+      setFormData((prev) => ({
+        ...prev,
+        category: value,
+        otherCategory: value === 'Other' ? prev.otherCategory : '',
       }));
     } else {
       setFormData((prev) => ({
@@ -84,6 +118,13 @@ const CreateTicket = () => {
 
     if (!formData.category) {
       errors.category = 'Please select a category';
+    }
+
+    // Validate "Other" category - require otherCategory field
+    if (formData.category === 'Other') {
+      if (!formData.otherCategory || formData.otherCategory.trim().length < 3) {
+        errors.otherCategory = 'Please specify the category (minimum 3 characters)';
+      }
     }
 
     // Validate category-specific fields
@@ -117,10 +158,19 @@ const CreateTicket = () => {
         }
       });
 
+      // If "Other" category is selected, use the custom category as the actual category
+      const finalCategory = formData.category === 'Other' && formData.otherCategory.trim()
+        ? formData.otherCategory.trim()
+        : formData.category;
+
       const ticketData = {
         ...formData,
+        category: finalCategory, // Use custom category instead of "Other"
         requestDetails: cleanedRequestDetails,
       };
+
+      // Remove otherCategory from ticketData
+      delete ticketData.otherCategory;
 
       const response = await ticketController.createTicket(ticketData);
       navigate(`/tickets/${response.data.ticket._id}`);
@@ -324,23 +374,55 @@ const CreateTicket = () => {
               <label htmlFor="category">
                 Category <span className="required">*</span>
               </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleInputChange}
-                className={validationErrors.category ? 'error' : ''}
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
+              {loadingCategories ? (
+                <select disabled>
+                  <option>Loading categories...</option>
+                </select>
+              ) : (
+                <select
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  className={validationErrors.category ? 'error' : ''}
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              )}
               {validationErrors.category && (
                 <span className="error-message">{validationErrors.category}</span>
               )}
             </div>
+
+            {/* Show "Other Category" input field when "Other" is selected */}
+            {formData.category === 'Other' && (
+              <div className="form-group">
+                <label htmlFor="otherCategory">
+                  Other Category <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="otherCategory"
+                  name="otherCategory"
+                  value={formData.otherCategory}
+                  onChange={handleInputChange}
+                  placeholder="Please specify the category"
+                  className={validationErrors.otherCategory ? 'error' : ''}
+                  maxLength={100}
+                />
+                {validationErrors.otherCategory && (
+                  <span className="error-message">{validationErrors.otherCategory}</span>
+                )}
+                <span className="form-hint">
+                  Enter the category name that is not in the list above.
+                </span>
+              </div>
+            )}
 
             <div className="form-group">
               <label htmlFor="title">
@@ -431,14 +513,25 @@ const CreateTicket = () => {
 
               <div className="form-group">
                 <label htmlFor="course">Course/Program</label>
-                <input
-                  type="text"
-                  id="course"
-                  name="requestDetails.course"
-                  value={formData.requestDetails.course}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Bachelor of Science in Computer Science"
-                />
+                {loadingCourses ? (
+                  <select disabled>
+                    <option>Loading courses...</option>
+                  </select>
+                ) : (
+                  <select
+                    id="course"
+                    name="requestDetails.course"
+                    value={formData.requestDetails.course}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select Course/Program</option>
+                    {courses.map((course) => (
+                      <option key={course} value={course}>
+                        {course}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
             </div>
 

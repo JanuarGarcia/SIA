@@ -1,0 +1,123 @@
+[
+  {
+    "id": "registrar",
+    "office_name": "Registrar's Office",
+    "office_name_tagalog": "Tanggapan ng Registrar",
+    "building_name": "Administration Building",
+    "floor_room": "2nd Floor, Room 201",
+    "description": "Handles student records, transcripts (OTR), enrollment, grades, and academic documents.",
+    "keywords": ["registrar", "registrar's", "registrar office", "otr", "transcript", "official transcript", "enrollment", "grades", "academic records", "documents", "student records", "tor"],
+    "keywords_tagalog": ["registrar", "registrar's", "tangapang ng registrar", "otr", "transkrip", "opisyal na transkrip", "enrollment", "mga grado", "rekord", "dokumento", "rekord ng estudyante"]
+  },
+  {
+    "id": "library",
+    "office_name": "Library",
+    "office_name_tagalog": "Aklatan",
+    "building_name": "Main Library Building",
+    "floor_room": "1st Floor",
+    "description": "Provides books, research materials, study spaces, and library services.",
+    "keywords": ["library", "librarian", "books", "research", "study", "borrowing", "reading", "book borrowing", "study space", "research materials"],
+    "keywords_tagalog": ["aklatan", "librarian", "mga libro", "pananaliksik", "pag-aaral", "paghiram", "paghiram ng libro", "espasyo sa pag-aaral"]
+  },
+  {
+    "id": "engineering",
+    "office_name": "Engineering Department",
+    "office_name_tagalog": "Kagawaran ng Engineering",
+    "building_name": "Engineering Building",
+    "floor_room": "2nd Floor, Rooms 201-210",
+    "description": "Department for Civil Engineering, Electrical Engineering, Mechanical Engineering, and Computer Engineering programs.",
+    "keywords": ["engineering", "engineering department", "civil engineering", "electrical engineering", "mechanical engineering", "computer engineering", "ce", "ee", "me", "cpe"],
+    "keywords_tagalog": ["engineering", "kagawaran ng engineering", "sibil na engineering", "elektrikal na engineering", "mekanikal na engineering"]
+  },
+  {
+    "id": "it-computer",
+    "office_name": "IT/Computer Studies Department",
+    "office_name_tagalog": "Kagawaran ng IT/Computer Studies",
+    "building_name": "IT Building",
+    "floor_room": "1st Floor, Rooms 101-105",
+    "description": "Department for Information Technology and Computer Science programs.",
+    "keywords": ["it", "it department", "information technology", "computer studies", "computer science", "cs", "ict", "it office", "computer department"],
+    "keywords_tagalog": ["it", "kagawaran ng it", "teknolohiya ng impormasyon", "pag-aaral ng computer", "computer science", "tangapang ng it"]
+  },
+  {
+    "id": "guidance",
+    "office_name": "Guidance and Counseling Office",
+    "office_name_tagalog": "Tanggapan ng Guidance at Counseling",
+    "building_name": "Student Center",
+    "floor_room": "3rd Floor, Room 301",
+    "description": "Provides counseling services, career guidance, and mental health support for students.",
+    "keywords": ["guidance", "guidance office", "counseling", "counselor", "career guidance", "mental health", "psychological", "guidance counselor"],
+    "keywords_tagalog": ["guidance", "tangapang ng guidance", "pagpapayo", "tagapayo", "gabay sa karera", "kalusugang pangkaisipan", "guidance counselor"]
+  },
+  {
+    "id": "accounting",
+    "office_name": "Accounting Office",
+    "office_name_tagalog": "Tanggapan ng Accounting",
+    "building_name": "Administration Building",
+    "floor_room": "1st Floor, Room 105",
+    "description": "Handles financial records, student accounts, and accounting services.",
+    "keywords": ["accounting", "accounting office", "accountant", "financial records", "student accounts", "accounting department"],
+    "keywords_tagalog": ["accounting", "tangapang ng accounting", "accountant", "rekord na pampinansyal", "mga account ng estudyante"]
+  },
+  {
+    "id": "cashier",
+    "office_name": "Cashier's Office",
+    "office_name_tagalog": "Tanggapan ng Cashier",
+    "building_name": "Administration Building",
+    "floor_room": "Ground Floor, Room 101",
+    "description": "Handles tuition payments, fees, and other financial transactions.",
+    "keywords": ["cashier", "cashier's", "cashier office", "payment", "tuition", "fees", "pay", "billing", "settle balance", "tuition payment", "pay fees"],
+    "keywords_tagalog": ["cashier", "tangapang ng cashier", "pagbabayad", "matrikula", "bayad", "magbayad", "billing", "pagbabayad ng matrikula"]
+  },
+  {
+    "id": "admissions",
+    "office_name": "Admissions Office",
+    "office_name_tagalog": "Tanggapan ng Admissions",
+    "building_name": "Administration Building",
+    "floor_room": "1st Floor, Room 102",
+    "description": "Handles new student applications, entrance exams, and enrollment requirements.",
+    "keywords": ["admissions", "admissions office", "admission", "application", "entrance exam", "enrollment", "requirements", "apply", "new student"],
+    "keywords_tagalog": ["admissions", "tangapang ng admissions", "pag-aaplay", "pagsusulit sa pasukan", "enrollment", "mga kinakailangan", "bagong estudyante"]
+  },
+  {
+    "id": "scholarship",
+    "office_name": "Scholarship Office",
+    "office_name_tagalog": "Tanggapan ng Scholarship",
+    "building_name": "Administration Building",
+    "floor_room": "3rd Floor, Room 301",
+    "description": "Handles scholarship applications, financial aid, and grants.",
+    "keywords": ["scholarship", "scholarship office", "financial aid", "grant", "bursary", "financial assistance", "scholar"],
+    "keywords_tagalog": ["scholarship", "tangapang ng scholarship", "tulong pinansyal", "grant", "tulong", "iskolar"]
+  },
+  {
+    "id": "student-services",
+    "office_name": "Student Services Office",
+    "office_name_tagalog": "Tanggapan ng Serbisyo sa Estudyante",
+    "building_name": "Student Center",
+    "floor_room": "2nd Floor, Room 201",
+    "description": "Handles student ID, uniforms, student activities, and student organizations.",
+    "keywords": ["student services", "student services office", "student id", "id card", "uniform", "student activities", "organizations", "student org"],
+    "keywords_tagalog": ["serbisyo sa estudyante", "tangapang ng serbisyo sa estudyante", "id ng estudyante", "uniporme", "mga aktibidad", "organisasyon"]
+  },
+  {
+    "id": "health-clinic",
+    "office_name": "Health Services / Clinic",
+    "office_name_tagalog": "Serbisyo sa Kalusugan / Klinika",
+    "building_name": "Health Center",
+    "floor_room": "Ground Floor",
+    "description": "Provides medical services, first aid, health check-ups, and medical certificates.",
+    "keywords": ["health", "health services", "clinic", "medical", "first aid", "health check", "medical certificate", "health center", "nurse"],
+    "keywords_tagalog": ["kalusugan", "serbisyo sa kalusugan", "klinika", "medikal", "first aid", "pagsusuri sa kalusugan", "nars"]
+  },
+  {
+    "id": "security",
+    "office_name": "Security Office",
+    "office_name_tagalog": "Tanggapan ng Seguridad",
+    "building_name": "Security Building",
+    "floor_room": "Main Gate",
+    "description": "Handles campus security, parking, lost and found, and emergency services.",
+    "keywords": ["security", "security office", "safety", "parking", "lost and found", "emergency", "guard", "guards"],
+    "keywords_tagalog": ["seguridad", "tangapang ng seguridad", "kaligtasan", "parking", "nawawala at natagpuan", "emergency", "guwardiya"]
+  }
+]
+

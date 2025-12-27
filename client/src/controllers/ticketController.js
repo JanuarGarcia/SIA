@@ -136,5 +136,21 @@ export const ticketController = {
     });
     return response.data;
   },
+
+  // Get all available categories
+  getCategories: async () => {
+    const response = await api.get('/tickets/categories', {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
+
+  // Get all available courses
+  getCourses: async () => {
+    const response = await api.get('/tickets/courses', {
+      headers: getAuthHeaders(),
+    });
+    return response.data;
+  },
 };
 

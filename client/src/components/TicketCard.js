@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatusBadge from './StatusBadge';
 import PriorityBadge from './PriorityBadge';
+import { getDisplayCategory } from '../utils/ticketHelpers';
 import '../styles/TicketCard.css';
 
 const TicketCard = ({ ticket }) => {
@@ -44,7 +45,7 @@ const TicketCard = ({ ticket }) => {
         <div className="ticket-meta">
           <span className="ticket-category">
             <span className="meta-icon">📁</span>
-            {ticket.category}
+            {getDisplayCategory(ticket)}
           </span>
           <span className="ticket-date">
             <span className="meta-icon">📅</span>

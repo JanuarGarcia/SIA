@@ -94,12 +94,30 @@ const AdminDashboard = () => {
             <h1>Welcome back, {getUserDisplayName()}!</h1>
             <p>Here's an overview of your ticket management system</p>
           </div>
-          <div className="admin-quick-actions">
+          <div className="admin-quick-actions" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <button
               className="btn-primary-action"
               onClick={() => navigate('/admin/tickets/all')}
             >
               Manage All Tickets
+            </button>
+            <button
+              className="btn-primary-action"
+              onClick={() => navigate('/admin/categories')}
+            >
+              Manage Categories
+            </button>
+            <button
+              className="btn-primary-action"
+              onClick={() => navigate('/admin/courses')}
+            >
+              Manage Courses
+            </button>
+            <button
+              className="btn-primary-action"
+              onClick={() => navigate('/admin/offices')}
+            >
+              Manage Office Locations
             </button>
           </div>
         </div>
